@@ -6,6 +6,8 @@ const lessons = [
   { href: "/lessons/02-client-component", label: "02 · Client" },
   { href: "/lessons/03-data-fetching", label: "03 · Data" },
   { href: "/lessons/04-routing", label: "04 · Routing" },
+  { href: "/lessons/05-route-handlers", label: "05 · API" },
+  { href: "/lessons/06-fullstack-todo", label: "06 · Full-Stack" },
 ];
 
 export default function Nav() {

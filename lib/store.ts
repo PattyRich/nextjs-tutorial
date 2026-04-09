@@ -20,6 +20,7 @@ let todos: Todo[] = [
 let nextId = 3;
 
 export function getTodos(): Todo[] {
+  console.log(todos)
   return todos;
 }
 
@@ -35,6 +36,7 @@ export function addTodo(text: string): Todo {
 }
 
 export function toggleTodo(id: number): Todo | null {
+  console.log(todos)
   let found: Todo | null = null;
   todos = todos.map((t) => {
     if (t.id === id) {

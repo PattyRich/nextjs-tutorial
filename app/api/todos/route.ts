@@ -20,6 +20,8 @@ import { getTodos, addTodo, toggleTodo, deleteTodo } from "@/lib/store";
 //
 // (uncomment the block above and delete this comment to complete it)
 export async function GET() {
+  const todos = getTodos();
+  return NextResponse.json(todos);
   // ⚠️  Remove this placeholder and implement the real handler above
   return NextResponse.json({ error: "GET not implemented yet — see TODO 1" }, { status: 501 });
 }
@@ -37,6 +39,12 @@ export async function GET() {
 //   return NextResponse.json(todo, { status: 201 });
 // }
 export async function POST(_req: NextRequest) {
+  const body = await _req.json();
+  if (!body.text || typeof body.text !== "string") {
+    return NextResponse.json({ error: "text is required" }, { status: 400 });
+  }
+  const todo = addTodo(body.text.trim());
+  return NextResponse.json(todo, { status: 201 });
   return NextResponse.json({ error: "POST not implemented yet — see TODO 2" }, { status: 501 });
 }
 
@@ -51,6 +59,10 @@ export async function POST(_req: NextRequest) {
 //   return NextResponse.json(todo);
 // }
 export async function PATCH(_req: NextRequest) {
+  const body = await _req.json();
+  const todo = toggleTodo(Number(body.id));
+  if (!todo) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json(todo);
   return NextResponse.json({ error: "PATCH not implemented yet — see TODO 3" }, { status: 501 });
 }
 
@@ -65,5 +77,9 @@ export async function PATCH(_req: NextRequest) {
 //   return NextResponse.json({ success: true });
 // }
 export async function DELETE(_req: NextRequest) {
+  const id = Number(new URL(_req.url).searchParams.get("id"));
+  const deleted = deleteTodo(id);
+  if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ success: true });
   return NextResponse.json({ error: "DELETE not implemented yet — see TODO 4" }, { status: 501 });
 }

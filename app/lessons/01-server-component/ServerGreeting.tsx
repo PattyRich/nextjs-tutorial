@@ -6,7 +6,7 @@
 // ============================================================
 
 // TODO 1: Add the `async` keyword to make this an async Server Component
-export default function ServerGreeting() {
+export default async function ServerGreeting() {
 
   // TODO 2: Simulate a server-side data fetch.
   // In a real app this might be: const user = await db.user.findFirst()
@@ -17,11 +17,13 @@ export default function ServerGreeting() {
   //
   // (paste those two lines here)
 
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  const user = { name: "Ada Lovelace", role: "Engineer" };
 
 
   // TODO 3: Replace the placeholder below with real values from `user`
-  const name = "???";   // should be user.name
-  const role = "???";   // should be user.role
+  const name = user.name;   // should be user.name
+  const role = user.role;   // should be user.role
 
   // This JSX renders on the server and is sent as HTML to the browser.
   return (

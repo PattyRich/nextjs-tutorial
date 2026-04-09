@@ -22,23 +22,27 @@ const posts = [
 // Its type is: { params: { id: string } }
 //
 // export default function PostPage({ params }: { params: { id: string } }) {
-export default function PostPage() {
 
+export default async function PostPage({ params }: { params: { id: string } }) {
+
+  params = await params;
   // TODO 2: Get the post id from params
   // const id = Number(params.id);
+  const id = Number(params.id);
 
   // TODO 3: Find the matching post
   // const post = posts.find((p) => p.id === id);
+  const post = posts.find((p) => p.id === id);
 
   // TODO 4: Handle post not found
-  // if (!post) {
-  //   return (
-  //     <div>
-  //       <p className="text-red-400">Post not found.</p>
-  //       <Link href="/lessons/04-routing" className="text-zinc-400 text-sm hover:text-zinc-200">← Back</Link>
-  //     </div>
-  //   );
-  // }
+  if (!post) {
+    return (
+      <div>
+        <p className="text-red-400">Post not found.</p>
+        <Link href="/lessons/04-routing" className="text-zinc-400 text-sm hover:text-zinc-200">← Back</Link>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -57,9 +61,9 @@ export default function PostPage() {
       </div>
 
       {/* TODO 5: Replace these placeholders with post.id, post.title, post.body */}
-      <div className="text-zinc-600 text-sm mb-2">Post #???</div>
-      <h1 className="text-2xl font-bold text-zinc-100 mb-4">Title goes here</h1>
-      <p className="text-zinc-400 leading-relaxed">Body goes here...</p>
+      <div className="text-zinc-600 text-sm mb-2">Post # {post.id}</div>
+      <h1 className="text-2xl font-bold text-zinc-100 mb-4">{post.title}</h1>
+      <p className="text-zinc-400 leading-relaxed">{post.body}</p>
     </div>
   );
 }

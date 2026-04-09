@@ -14,7 +14,7 @@ type Post = {
 };
 
 // TODO 1: Make this component async
-export default function PostList() {
+export default async function PostList() {
 
   // TODO 2: Fetch posts from the API.
   // Use: https://jsonplaceholder.typicode.com/posts?_limit=8
@@ -26,10 +26,11 @@ export default function PostList() {
   //   );
   //   const posts: Post[] = await res.json();
 
-
-
-  // TODO 3: Replace this placeholder with the real `posts` array
-  const posts: Post[] = [];
+  const res = await fetch(
+    "https://jsonplaceholder.typicode.com/posts?_limit=8",
+    { next: { revalidate: 60 } }
+  );
+  const posts: Post[] = await res.json();
 
   // TODO 4: Handle the empty state (remove this once you have data)
   if (posts.length === 0) {

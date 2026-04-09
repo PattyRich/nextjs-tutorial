@@ -58,7 +58,7 @@ export default function ApiTester() {
           fetch("/api/todos", {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: 1 }),
+            body: JSON.stringify({ id: 1, text: 'hi boss man' }),
           })
         ),
     },

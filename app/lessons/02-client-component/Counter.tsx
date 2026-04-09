@@ -1,3 +1,4 @@
+'use client';
 // ============================================================
 // LESSON 02a — Client Component: Counter
 // ============================================================
@@ -8,9 +9,13 @@
 // TODO 2: Import useState from React
 // import { useState } from "react";
 
+import { useState } from "react";
+
 export default function Counter() {
   // TODO 3: Create a count state variable initialized to 0
   // const [count, setCount] = useState(0);
+
+  const [count, setCount] = useState(0);
 
   // TODO 4: Replace the button's onClick with setCount(count + 1)
 
@@ -18,10 +23,11 @@ export default function Counter() {
     <div className="flex flex-col items-center gap-4">
       <div className="text-5xl font-bold text-zinc-200">
         {/* TODO 5: Display `count` here */}
-        ?
+        {count}
       </div>
       <button
         // TODO 4: add onClick={() => setCount(count + 1)}
+        onClick={() => setCount(prevCount => prevCount + 1)}
         className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded transition-colors text-sm"
       >
         Click me

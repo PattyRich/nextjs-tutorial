@@ -37,7 +37,15 @@ export default function TodoApp({ initialTodos }: Props) {
     if (!input.trim()) return;
     setError(null);
     // TODO 1: replace this with the real implementation above
-    setError("handleAdd not implemented yet — see TODO 1");
+    const res = await fetch("/api/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: input.trim() }),
+    });
+    if (!res.ok) { setError("Failed to add todo"); return; }
+    const newTodo: Todo = await res.json();
+    setTodos((prev) => [...prev, newTodo]);
+    setInput("");
   }
 
   // ── TODO 2: Toggle a todo's done state ──────────────────
@@ -56,7 +64,14 @@ export default function TodoApp({ initialTodos }: Props) {
   async function handleToggle(id: number) {
     setError(null);
     // TODO 2: replace this with the real implementation above
-    setError("handleToggle not implemented yet — see TODO 2");
+    const res = await fetch("/api/todos", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    if (!res.ok) { setError("Failed to update todo"); return; }
+    const updated: Todo = await res.json();
+    setTodos((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
     void id; // remove this line too
   }
 
@@ -71,7 +86,9 @@ export default function TodoApp({ initialTodos }: Props) {
   async function handleDelete(id: number) {
     setError(null);
     // TODO 3: replace this with the real implementation above
-    setError("handleDelete not implemented yet — see TODO 3");
+    const res = await fetch(`/api/todos?id=${id}`, { method: "DELETE" });
+    if (!res.ok) { setError("Failed to delete todo"); return; }
+    setTodos((prev) => prev.filter((t) => t.id !== id));
     void id; // remove this line too
   }
 
@@ -115,20 +132,18 @@ export default function TodoApp({ initialTodos }: Props) {
               {/* Toggle button */}
               <button
                 onClick={() => handleToggle(todo.id)}
-                className={`w-5 h-5 rounded border flex items-center justify-center flex-shrink-0 transition-colors ${
-                  todo.done
-                    ? "bg-emerald-600 border-emerald-600 text-white"
-                    : "border-zinc-600 hover:border-zinc-400"
-                }`}
+                className={`w-5 h-5 rounded border flex items-center justify-center flex-shrink-0 transition-colors ${todo.done
+                  ? "bg-emerald-600 border-emerald-600 text-white"
+                  : "border-zinc-600 hover:border-zinc-400"
+                  }`}
               >
                 {todo.done && <span className="text-xs">✓</span>}
               </button>
 
               {/* Text */}
               <span
-                className={`flex-1 text-sm transition-colors ${
-                  todo.done ? "line-through text-zinc-600" : "text-zinc-300"
-                }`}
+                className={`flex-1 text-sm transition-colors ${todo.done ? "line-through text-zinc-600" : "text-zinc-300"
+                  }`}
               >
                 {todo.text}
               </span>
